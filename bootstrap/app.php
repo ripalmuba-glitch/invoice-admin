@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request; // <-- PASTIKAN IMPORT INI ADA
+use Illuminate\Http\Request; // Pastikan ini ada
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,18 +13,17 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
-        // --- BLOK KODE YANG KITA TAMBAHKAN ---
-        // Ini memberi tahu Laravel untuk mempercayai header
-        // dari load balancer Railway (untuk HTTPS)
+        // --- PERBAIKAN SINTAKS DI BLOK INI ---
+        // Kita tidak menggunakan 'proxies:' dan 'headers:' lagi.
         $middleware->trustProxies(
-            proxies: '*', // Percayai semua proxy
-            headers: Request::HEADER_X_FORWARDED_FOR |
-                     Request::HEADER_X_FORWARDED_HOST |
-                     Request::HEADER_X_FORWARDED_PORT |
-                     Request::HEADER_X_FORWARDED_PROTO |
-                     Request::HEADER_X_FORWARDED_AWS_ELB
+            '*', // Argumen pertama: proxies
+            Request::HEADER_X_FORWARDED_FOR | // Argumen kedua: headers
+            Request::HEADER_X_FORWARDED_HOST |
+            Request::HEADER_X_FORWARDED_PORT |
+            Request::HEADER_X_FORWARDED_PROTO |
+            Request::HEADER_X_FORWARDED_AWS_ELB
         );
-        // --- AKHIR BLOK KODE ---
+        // --- AKHIR PERBAIKAN ---
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
