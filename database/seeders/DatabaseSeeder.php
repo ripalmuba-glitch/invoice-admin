@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Panggil AdminUserSeeder yang baru kita buat
+        // Perintah ini memberi tahu 'db:seed' untuk
+        // menjalankan seeder admin kita
         $this->call([
             AdminUserSeeder::class,
         ]);
